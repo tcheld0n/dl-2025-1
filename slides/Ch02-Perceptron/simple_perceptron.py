@@ -98,12 +98,14 @@ plot_data(X, y, w, 1)
 #%%
 
 # Initialize weigths
-w = np.zeros((3,1))# np.random.random((3,1))
+w = np.zeros((3,1))
+# w = np.random.random((3,1))
 # w = 10. * np.random.random((3,1))
 # w = w/ np.linalg.norm(w)
+plot_data(X, y, w, 1)
 
 epochs = range(200)
-eta = .2
+eta = .002
 
 for epoch in epochs:
   for i in range(X.shape[0]):
@@ -111,17 +113,19 @@ for epoch in epochs:
     y_gt = y[i]
     y_hat = predict(w, x)
     plot_data(X, y, w, i)
-    time.sleep(1)
 
     if y_hat != y_gt:
         w = w + eta * (y_gt - y_hat) * x
         plot_data(X, y, w, i)
-        time.sleep(1)
+        # time.sleep(.2)
+
+    time.sleep(.2)
     
 plot_data(X, y, w, i)
 
 #%%
 w = np.random.random((3,1))
+w = w/ np.linalg.norm(w)
 epochs = range(5) #%% hyperparameter
 eta = 1           #%% hyperparameter
 
