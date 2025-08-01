@@ -16,26 +16,55 @@ class Perceptron:
     def _init_weights(self):
         rng = np.random.default_rng(self.seed)
         ### START CODE HERE ###
-        ### TODO: Initialize weights with small Gaussian noise using rng.normal
-        pass
+
+        # Initialize weights with small Gaussian noise using rng.normal
+        # +1 to include bias term
+        self.weights = rng.normal(0, 0.01, self.input_size + 1)
+        
         ### END CODE HERE ###
 
     def activation(self, x):
         ### START CODE HERE ###
-        ### TODO: Implement the step activation function
-        pass
+        
+        # Step activation function: return 1 if x >= 0, else -1
+        return np.where(x >= 0, 1, -1)
+        
         ### END CODE HERE ###
 
     def predict(self, X):
         ### START CODE HERE ###
-        ### TODO: Add bias term, compute dot product with weights, apply activation
-        pass
+
+        # Add bias term
+        X_with_bias = np.column_stack([np.ones(X.shape[0]), X])
+        
+        # Compute dot product with weights
+        linear_output_z = np.dot(X_with_bias, self.weights)
+        
+        # Apply activation function
+        predictions = self.activation(linear_output_z)
+        
+        return predictions
+
         ### END CODE HERE ###
 
     def fit(self, X, y):
         ### START CODE HERE ###
-        ### TODO: Implement the perceptron learning algorithm
-        pass
+        
+        for epoch in range(self.epochs):
+            errors = 0         
+            for i in range(X.shape[0]):
+                # Calculate samples predictions
+                prediction = self.predict(X[i:i+1])[0]
+                
+                # Update weights if prediction is incorrect
+                if prediction != y[i]:
+                    errors += 1
+                    # Add bias for updating
+                    x_with_bias = np.insert(X[i], 0, 1)
+                    
+                    # Perceptron update rule:                    
+                    self.weights += self.learning_rate * (y[i] - prediction) * x_with_bias
+            
         ### END CODE HERE ###
 
 #%%
