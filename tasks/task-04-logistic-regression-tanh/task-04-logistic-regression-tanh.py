@@ -15,7 +15,6 @@ class LogisticNeuron:
         return a
 
     def predict_proba(self, X):
-        ### Compute activation output using tanh
         z = np.dot(X, self.weights) + self.bias
         a = np.tanh(z)
         return a
@@ -30,7 +29,7 @@ class LogisticNeuron:
 
         for _ in range(self.epochs):
             # Forward pass
-            y_pred = self.predict(X)
+            y_pred = self.predict_proba(X)
 
             # Compute error
             error = y_pred - y_tanh
